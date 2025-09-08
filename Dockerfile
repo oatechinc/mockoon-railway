@@ -4,15 +4,15 @@ FROM node:20-alpine
 # Install necessary packages
 RUN apk add --no-cache \
     curl \
+    wget \
     supervisor
 
 # Install Mockoon CLI globally
 RUN npm install -g @mockoon/cli
 
 # Install FileBrowser
-RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh -o /tmp/install.sh && \
-    sh /tmp/install.sh && \
-    rm /tmp/install.sh
+RUN wget -qO- https://github.com/filebrowser/filebrowser/releases/latest/download/linux-amd64-filebrowser.tar.gz | tar -xz -C /usr/local/bin/ && \
+    chmod +x /usr/local/bin/filebrowser
 
 # Create necessary directories
 RUN mkdir -p /mockoon-data /var/log/supervisor /app
