@@ -10,7 +10,9 @@ RUN apk add --no-cache \
 RUN npm install -g @mockoon/cli
 
 # Install FileBrowser
-RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | sh
+RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh -o /tmp/install.sh && \
+    sh /tmp/install.sh && \
+    rm /tmp/install.sh
 
 # Create necessary directories
 RUN mkdir -p /mockoon-data /var/log/supervisor /app
