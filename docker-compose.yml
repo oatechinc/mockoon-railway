@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  mockoon:
+    build: .
+    container_name: mockoon-cli-railway
+    ports:
+      - "80:80"          # Control Panel & API Server
+      - "3000:3000"      # Mockoon API
+      - "8080:8080"      # FileBrowser
+    environment:
+      - WEB_USERNAME=admin
+      - WEB_PASSWORD=password123
+      - PORT=80
+      - MOCKOON_PORT=3000
+    volumes:
+      # Persist data between container restarts
+      - mockoon-data:/mockoon-data
+      - mockoon-logs:/var/log
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/api/mockoon?action=status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+volumes:
+  mockoon-data:
+    driver: local
+  mockoon-logs:
+    driver: local
