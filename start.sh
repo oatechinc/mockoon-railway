@@ -7,14 +7,14 @@ echo "PORT: $PORT"
 echo "MOCKOON_PORT: ${MOCKOON_PORT:-3000}"
 
 # Initialize FileBrowser configuration
-/filebrowser config init
-/filebrowser config set --address 0.0.0.0
-/filebrowser config set --port 8080
-/filebrowser config set --root /mockoon-data
-/filebrowser config set --database /mockoon-data/filebrowser.db
+/usr/local/bin/filebrowser config init
+/usr/local/bin/filebrowser config set --address 0.0.0.0
+/usr/local/bin/filebrowser config set --port 8080
+/usr/local/bin/filebrowser config set --root /mockoon-data
+/usr/local/bin/filebrowser config set --database /mockoon-data/filebrowser.db
 
 # Add FileBrowser user
-/filebrowser users add $WEB_USERNAME $WEB_PASSWORD --perm.admin
+/usr/local/bin/filebrowser users add $WEB_USERNAME $WEB_PASSWORD --perm.admin
 
 # Create a default mockoon data file if none exists
 if [ ! -f "/mockoon-data/default-mock.json" ]; then

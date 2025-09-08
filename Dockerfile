@@ -33,3 +33,9 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Copy start script
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
+
+# Expose ports
+EXPOSE 3000 8080
+
+# Start the container
+CMD ["/start.sh"]
