@@ -13,13 +13,16 @@ echo "PORT: $PORT"
 echo "MOCKOON_PORT: $MOCKOON_PORT"
 
 # Initialize FileBrowser configuration
+# Remove any existing config first
+rm -f /app/.filebrowser.json /mockoon-data/.filebrowser.json
 cd /mockoon-data
 /usr/local/bin/filebrowser config init --database /mockoon-data/filebrowser.db
 /usr/local/bin/filebrowser config set --address 0.0.0.0 --database /mockoon-data/filebrowser.db
 /usr/local/bin/filebrowser config set --port 8080 --database /mockoon-data/filebrowser.db
 /usr/local/bin/filebrowser config set --root /mockoon-data --database /mockoon-data/filebrowser.db
 
-# Add FileBrowser user
+# Add FileBrowser user (remove existing first)
+/usr/local/bin/filebrowser users rm $WEB_USERNAME --database /mockoon-data/filebrowser.db 2>/dev/null || true
 /usr/local/bin/filebrowser users add $WEB_USERNAME $WEB_PASSWORD --perm.admin --database /mockoon-data/filebrowser.db
 
 # Create a default mockoon data file if none exists
