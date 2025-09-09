@@ -1,20 +1,26 @@
 #!/bin/sh
 
 echo "=== Starting Mockoon CLI Services ==="
+
+# Set default values for environment variables
+WEB_USERNAME=${WEB_USERNAME:-admin}
+WEB_PASSWORD=${WEB_PASSWORD:-password}
+MOCKOON_PORT=${MOCKOON_PORT:-3000}
+
 echo "WEB_USERNAME: $WEB_USERNAME"
-echo "WEB_PASSWORD: $WEB_PASSWORD"
+echo "WEB_PASSWORD: [HIDDEN]"
 echo "PORT: $PORT"
-echo "MOCKOON_PORT: ${MOCKOON_PORT:-3000}"
+echo "MOCKOON_PORT: $MOCKOON_PORT"
 
 # Initialize FileBrowser configuration
-/usr/local/bin/filebrowser config init
-/usr/local/bin/filebrowser config set --address 0.0.0.0
-/usr/local/bin/filebrowser config set --port 8080
-/usr/local/bin/filebrowser config set --root /mockoon-data
-/usr/local/bin/filebrowser config set --database /mockoon-data/filebrowser.db
+cd /mockoon-data
+/usr/local/bin/filebrowser config init --database /mockoon-data/filebrowser.db
+/usr/local/bin/filebrowser config set --address 0.0.0.0 --database /mockoon-data/filebrowser.db
+/usr/local/bin/filebrowser config set --port 8080 --database /mockoon-data/filebrowser.db
+/usr/local/bin/filebrowser config set --root /mockoon-data --database /mockoon-data/filebrowser.db
 
 # Add FileBrowser user
-/usr/local/bin/filebrowser users add $WEB_USERNAME $WEB_PASSWORD --perm.admin
+/usr/local/bin/filebrowser users add $WEB_USERNAME $WEB_PASSWORD --perm.admin --database /mockoon-data/filebrowser.db
 
 # Create a default mockoon data file if none exists
 if [ ! -f "/mockoon-data/default-mock.json" ]; then
